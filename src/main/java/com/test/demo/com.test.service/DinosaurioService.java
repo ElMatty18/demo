@@ -30,11 +30,8 @@ public class DinosaurioService {
 
 
     public Dinosaurio createDinosaur(Dinosaurio dinosaur) {
-        Dinosaurio d = new Dinosaurio();
-        d.setName(dinosaur.getName());
-        d.setContinent(dinosaur.getContinent());
-        d.setPeriod(dinosaur.getPeriod());
-        return dinosaurioRepository.save(d);
+        dinosaur.setId(null);
+        return dinosaurioRepository.save(dinosaur);
     }
 
     public Dinosaurio updateDinosaur(Long id, Dinosaurio dinosaur) {

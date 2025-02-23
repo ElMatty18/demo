@@ -1,12 +1,11 @@
 package com.test.demo.com.test.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Version;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 public class Dinosaurio implements Serializable {
@@ -15,14 +14,43 @@ public class Dinosaurio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private String name;
-    private String period;
+    private String species;
     private String continent;
 
-    @Version
-    private Integer version;
+    private Timestamp discoveryDate;
+    private Timestamp extinctionDate;
+    /*@Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;*/
 
-    // Getters and Setters
+    public enum Status {
+        ALIVE,
+        ENDANGERED,
+        EXTINCT
+    }
+
+    /*public Dinosaurio (){
+        this.setStatus(Status.ALIVE);
+    }*/
+
+    @PrePersist
+    @PreUpdate
+    public void validate() {
+        if (discoveryDate.before(extinctionDate)) {
+            throw new IllegalArgumentException("El valor de discoveryDate no puede ser mayor o igual al valor de\n" +
+                    "extinctionDate.");
+        }
+       /* if (status.equals(Status.EXTINCT)) {
+            throw new IllegalArgumentException("No se puede modificar un dinosaurio EXTINCT.");
+        }
+        if (this.status == null) {
+            this.status = Status.ALIVE; // Valor por defecto
+        }*/
+    }
+
+
     public Long getId() {
         return id;
     }
@@ -39,12 +67,12 @@ public class Dinosaurio implements Serializable {
         this.name = name;
     }
 
-    public String getPeriod() {
-        return period;
+    public String getSpecies() {
+        return species;
     }
 
-    public void setPeriod(String period) {
-        this.period = period;
+    public void setSpecies(String species) {
+        this.species = species;
     }
 
     public String getContinent() {
@@ -55,11 +83,29 @@ public class Dinosaurio implements Serializable {
         this.continent = continent;
     }
 
-    public Integer getVersion() {
-        return version;
+    public Timestamp getDiscoveryDate() {
+        return discoveryDate;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setDiscoveryDate(Timestamp discoveryDate) {
+        this.discoveryDate = discoveryDate;
     }
+
+    public Timestamp getExtinctionDate() {
+        return extinctionDate;
+    }
+
+    public void setExtinctionDate(Timestamp extinctionDate) {
+        this.extinctionDate = extinctionDate;
+    }
+
+   /* public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+       this.status = status;
+    }
+    */
+
 }
