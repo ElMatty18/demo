@@ -1,14 +1,14 @@
-# Usamos una imagen base de Tomcat
-FROM tomcat:9.0-jdk11
+# Usa una imagen base con JDK para ejecutar tu aplicación
+FROM openjdk:17-jdk-slim
 
-# Elimina la aplicación web predeterminada de Tomcat
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
+# Establece el directorio de trabajo dentro del contenedor
+WORKDIR /app
 
-# Copia el archivo WAR generado a la carpeta de aplicaciones de Tomcat
-COPY ./target/demo-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+# Copia el archivo WAR a la imagen Docker
+COPY target/demo-0.0.1-SNAPSHOT.war /app/demo-0.0.1-SNAPSHOT.war
 
-# Exponer el puerto en el que Tomcat escucha (por defecto 8080)
+# Expon el puerto donde la aplicación Spring Boot escuchará
 EXPOSE 8080
 
-# Inicia Tomcat cuando se ejecute el contenedor
-CMD ["catalina.sh", "run"]
+# Comando para ejecutar la aplicación
+CMD ["java", "-jar", "/app/demo-0.0.1-SNAPSHOT.war"]
