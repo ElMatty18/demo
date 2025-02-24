@@ -31,6 +31,7 @@ public class DinosaurioService {
 
     public Dinosaurio createDinosaur(Dinosaurio dinosaur) {
         dinosaur.setId(null);
+        dinosaur.setStatus(Dinosaurio.Status.ALIVE);
         return dinosaurioRepository.save(dinosaur);
     }
 

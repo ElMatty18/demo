@@ -21,9 +21,8 @@ public class Dinosaurio implements Serializable {
 
     private Timestamp discoveryDate;
     private Timestamp extinctionDate;
-    /*@Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status status;*/
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public enum Status {
         ALIVE,
@@ -42,12 +41,9 @@ public class Dinosaurio implements Serializable {
             throw new IllegalArgumentException("El valor de discoveryDate no puede ser mayor o igual al valor de\n" +
                     "extinctionDate.");
         }
-       /* if (status.equals(Status.EXTINCT)) {
+        if (status.equals(Status.EXTINCT)) {
             throw new IllegalArgumentException("No se puede modificar un dinosaurio EXTINCT.");
         }
-        if (this.status == null) {
-            this.status = Status.ALIVE; // Valor por defecto
-        }*/
     }
 
 
@@ -99,13 +95,12 @@ public class Dinosaurio implements Serializable {
         this.extinctionDate = extinctionDate;
     }
 
-   /* public Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
        this.status = status;
     }
-    */
 
 }
